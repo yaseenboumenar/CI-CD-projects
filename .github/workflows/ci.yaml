@@ -1,7 +1,12 @@
 
 name: CoderCo Combined
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'cicd-learning/**'
+      
+  workflow_dispatch:
 
 jobs:
     build:
