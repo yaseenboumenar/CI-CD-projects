@@ -1,0 +1,41 @@
+
+name: CoderCo Combined
+
+on:
+  push:
+    paths:
+      - 'cicd-learning/**'
+      
+  workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                python-version: [3.11, 3.12]
+
+        steps:
+        - name: checkout code
+          uses: actions/checkout@v2
+
+        - name: setup python
+          uses: actions/setup-python@v2
+          with:
+            python-version: ${{matrix.python-version}}
+        
+        - name: install dependancies
+          run: |
+            cd cicd-learning
+            python -m pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+        - name: run tests
+          run: |
+            cd cicd-learning
+            python -m unittest discover
+        
+        - name: notify us of success
+          run: echo "Tests passed on python ${{matrix.python-version}}"
+          if : success()

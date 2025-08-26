@@ -1,0 +1,14 @@
+
+# Conditions: Allow you to control when a job or step should run based on certain criteria
+# Expressions: Provide a way to perform calculations, manipulate strings, and more within your workflow file.
+
+# Using conditions: Run a step only if the previous step succeeded
+
+- name: Run Tests
+  run: python -m unittest discover
+  if: success()
+
+# Using expressions: Print a message with the branch name
+
+- name: Print branch name
+  run: echo The branch is ${{ github.ref }}
